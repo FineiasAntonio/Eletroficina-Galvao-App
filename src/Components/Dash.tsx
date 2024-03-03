@@ -4,32 +4,32 @@ import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import Table from './Table';
 
 interface User {
-    name: string;
-    email: string;
-    imageUrl: string;
-  }
-  
-  interface NavigationItem {
-    name: string;
-    href: string;
-    current: boolean;
-  }
-  
-  interface UserNavigationItem {
-    name: string;
-    href: string;
-  }
-  
-  interface ExampleProps {
-    user: User;
-    navigation: NavigationItem[];
-    userNavigation: UserNavigationItem[];
-  }
-  
-  function classNames(...classes: string[]) {
-    return classes.filter(Boolean).join(' ');
-  }
-  
+  name: string;
+  email: string;
+  imageUrl: string;
+}
+
+interface NavigationItem {
+  name: string;
+  href: string;
+  current: boolean;
+}
+
+interface UserNavigationItem {
+  name: string;
+  href: string;
+}
+
+interface ExampleProps {
+  user: User;
+  navigation: NavigationItem[];
+  userNavigation: UserNavigationItem[];
+}
+
+function classNames(...classes: string[]) {
+  return classes.filter(Boolean).join(' ');
+}
+
 
 const user = {
   name: 'Tom Cook',
@@ -51,16 +51,16 @@ export default function Example() {
           {({ open }) => (
             <>
               <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div className="flex h-16 items-center justify-between">
+                <div className="flex h-20 items-center justify-between">
                   <div className="flex items-center">
                     <div className="flex-shrink-0">
                       <img
-                        className="h-8 w-8"
-                        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                        className="h-20 w-20"
+                        src="src/Assets/loja_logo.png"
                         alt="Your Company"
                       />
                     </div>
-                    
+
                     <div className="hidden md:block">
                       <div className="ml-10 flex items-baseline space-x-4">
                         {navigation.map((item) => (
@@ -154,13 +154,18 @@ export default function Example() {
         </Disclosure>
 
         <header className="bg-white shadow">
-          <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 flex justify-between">
             <h1 className="text-3xl font-bold tracking-tight text-gray-900">Ordens de serviço</h1>
+            <div className='text-right'>
+            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+              Nova ordem de serviço
+            </button>
+            </div>
           </div>
         </header>
         <main>
           <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-            <Table/>
+            <Table />
           </div>
         </main>
       </div>
