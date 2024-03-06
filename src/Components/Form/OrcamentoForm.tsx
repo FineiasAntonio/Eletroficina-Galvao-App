@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import ProdutoOrcamento from "./ProdutoOrcamento"
 import { NovoProduto, Produto } from "../../Service/Entities/Produto";
 import { produtosReservados } from "../../Service/Entities/Reserva";
 import { FiTrash2 } from "react-icons/fi";
@@ -8,8 +7,8 @@ import { getAllProduto } from "../../Service/api/ProdutoApi";
 
 interface FormProps {
     setarReserva: (
-        produtosReservadosInput: produtosReservados[],
-        novoProdutoReservadoInput: NovoProduto[],
+        produtosExistentesInput: produtosReservados[],
+        produtosNovosInput: NovoProduto[],
         maoDeObraInput: number
     ) => void;
 }
@@ -27,14 +26,13 @@ export default function OrcamentoForm({ setarReserva }: FormProps) {
     const [produtosExistentes, setProdutosExistentes] = useState<produtosReservados[]>([]);
     const [produtosNovos, setProdutosNovos] = useState<NovoProduto[]>([]);
 
-    const [numInstancias, setNumInstancias] = useState(1);
     const [maoDeObra, setMaoDeObra] = useState(0);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const osData = await getAllProduto();
-                setData(osData);
+                const Data = await getAllProduto();
+                setData(Data);
             } catch (error) {
                 console.error(error);
             }
@@ -42,6 +40,11 @@ export default function OrcamentoForm({ setarReserva }: FormProps) {
 
         fetchData();
     }, []);
+
+    useEffect(() => {
+        // Chamada para setarReserva sempre que produtosExistentes, produtosNovos ou maoDeObra mudarem
+        setarReserva(produtosExistentes, produtosNovos, maoDeObra);
+    }, [produtosExistentes, produtosNovos, maoDeObra]);
 
     const adicionarProdutoNovo = () => {
 
@@ -106,10 +109,15 @@ export default function OrcamentoForm({ setarReserva }: FormProps) {
         produtoSelecionado ? adicionarProdutoExistente(produtoSelecionado) : adicionarProdutoNovo();
     }
 
-    const print = () => {
-        console.log("a")
-        console.log(produtoSelecionado)
+    const apagarExistente = (identificador: string) => {
+        setProdutosExistentes(produtosExistentes.filter(e => e.uuidProduto != identificador));
     }
+
+    const apagarNovo = (identificador: string) => {
+        setProdutosNovos(produtosNovos.filter(e => e.produto != identificador));
+    }
+
+    
 
     return (
         <div className="rounded p-2 min-h-tela">
@@ -151,9 +159,7 @@ export default function OrcamentoForm({ setarReserva }: FormProps) {
                     </>
                 )
                 }
-                <button onClick={print}>
-                    <FiTrash2 />
-                </button>
+
             </div>
 
             <button onClick={adcionarProduto} className="bg-blue-500 m-3 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
@@ -166,22 +172,29 @@ export default function OrcamentoForm({ setarReserva }: FormProps) {
 
                     return (
                         <div className="flex justify-between">
-                        <label>{produtoInfo?.produto}</label>
-                        <label>{produtoInfo?.quantidade}</label>
-                        <label>{produtoInfo?.precoUnitario}</label>
-                        <label>{produtoInfo?.referencia}</label>
-                        <br/>
+                            <label>{produtoInfo?.produto}</label>
+                            <label>{produtoInfo?.quantidade}</label>
+                            <label>{produtoInfo?.precoUnitario}</label>
+                            <label>{produtoInfo?.referencia}</label>
+                            <button onClick={() => produtoInfo?.id && apagarExistente(produtoInfo?.id)}>
+                                <FiTrash2 />
+                            </button>
+                            <br />
                         </div>
                     )
                 })}
                 {produtosNovos.map(t => {
                     return (
                         <div className="flex justify-between">
-                        <label>{t?.produto}</label>
-                        <label>{t?.quantidade}</label>
-                        <label>{t?.precoUnitario}</label>
-                        <label>{t?.referencia}</label>
-                        <br/>
+                            <label>{t?.produto}</label>
+                            <label>{t?.quantidade}</label>
+                            <label>{t?.precoUnitario}</label>
+                            <label>{t?.referencia}</label>
+                            <button onClick={() => t?.produto && apagarNovo(t?.produto)}>
+                                <FiTrash2 />
+                            </button>
+                            <br />
+                            <br />
                         </div>
                     )
                 })}

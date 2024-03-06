@@ -3,21 +3,28 @@ import OSForm from "./OSForm";
 import OrcamentoForm from "./OrcamentoForm";
 import { Reserva, produtosReservados } from "../../Service/Entities/Reserva";
 import { NovoProduto } from "../../Service/Entities/Produto";
+import { OSCreateRequest } from "../../Service/Entities/OS";
 
 export default function Form() {
 
   const [reserva, setReserva] = useState<Reserva>();
+  const [osRequest, setOsRequest] = useState<OSCreateRequest>();
 
-  const setarReserva = (produtosReservadosInput: produtosReservados[], novoProdutoReservadoInput: NovoProduto[], maoDeObraInput: number) => {
+  const setarReserva = (produtosExistentesInput: produtosReservados[], produtosNovosInput: NovoProduto[], maoDeObraInput: number) => {
     const Reserva = {
-      produtosReservados: produtosReservadosInput,
-      novoProdutoReservado: novoProdutoReservadoInput,
+      produtosExistentes: produtosExistentesInput,
+      produtosNovos: produtosNovosInput,
       maoDeObra: maoDeObraInput
     }
     setReserva(Reserva);
   }
 
+  const setarOS = (OSRequest: OSCreateRequest) => {
+    setOsRequest(OSRequest);
+  }
+
   const envia = () => {
+    console.log(osRequest)
     console.log(reserva);
 }
 
@@ -25,7 +32,7 @@ export default function Form() {
     <div className="w-screen-md mx-auto">
 
       <div className="mt-4 p-4 bg-gray-100">
-        <OSForm />
+        <OSForm setarOS={setarOS} />
         <OrcamentoForm setarReserva={setarReserva}/>
       </div>
       <hr/>

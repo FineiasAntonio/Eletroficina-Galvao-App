@@ -1,6 +1,61 @@
 import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
+import { Funcionario } from '../../Service/Entities/Funcionario';
+import { useEffect, useState } from 'react';
+import { getAllFuncionario } from '../../Service/api/FuncionarioApi';
+import { OSCreateRequest, OrdemServico } from '../../Service/Entities/OS';
 
-export default function OSForm() {
+interface FormProps {
+    setarOS: (
+        OSRequest: OSCreateRequest
+    ) => void;
+}
+
+export default function OSForm({setarOS}: FormProps) {
+
+    const [data, setData] = useState<Funcionario[]>([]);
+
+    const [formData, setFormData] = useState<OSCreateRequest>({
+        nome: '',
+        cpf: '',
+        telefone: '',
+        endereco: '',
+        equipamento: '',
+        numeroSerie: '',
+        servico: '',
+        dataSaida: new Date(),
+        funcionarioId: 0,
+        observacao: '',
+        comentarios: '',
+        reserva: {
+
+        },
+    });
+
+    useEffect(() => {
+        setarOS(formData);
+    }, [formData]);
+
+    const handleInputChange = (e: { target: { name: any; value: any; }; }) => {
+        const { name, value } = e.target;
+        setFormData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const Data = await getAllFuncionario();
+                setData(Data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
     return (
         <>
             <form>
@@ -10,16 +65,16 @@ export default function OSForm() {
 
                             {/* Nome */}
                             <div className="sm:col-span-2">
-                                <label htmlFor="username" className="block text-sm font-medium leading-6 text-gray-900">
+                                <label className="block text-sm font-medium leading-6 text-gray-900">
                                     Cliente
                                 </label>
                                 <div className="mt-2">
                                     <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
                                         <input
                                             type="text"
-                                            name="username"
-                                            id="nome"
-                                            autoComplete="username"
+                                            name="nome"
+                                            value={formData.nome}
+                                            onChange={handleInputChange}
                                             className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                             placeholder="Cliente"
                                         />
@@ -31,16 +86,16 @@ export default function OSForm() {
 
                             {/* CPF/CNPJ */}
                             <div className='sm:col-span-2'>
-                                <label htmlFor="username" className="block text-sm font-medium leading-6 text-gray-900">
+                                <label className="block text-sm font-medium leading-6 text-gray-900">
                                     CPF/CNPJ
                                 </label>
                                 <div className="mt-2">
                                     <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
                                         <input
                                             type="text"
-                                            name="username"
-                                            id="cpf"
-                                            autoComplete="username"
+                                            name="cpf"
+                                            value={formData.cpf}
+                                            onChange={handleInputChange}
                                             className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                             placeholder="CPF/CNPJ"
                                         />
@@ -49,19 +104,18 @@ export default function OSForm() {
                                 </div>
                             </div>
 
-
                             {/* Telefone */}
                             <div className='sm:col-span-2'>
-                                <label htmlFor="username" className="block text-sm font-medium leading-6 text-gray-900">
+                                <label className="block text-sm font-medium leading-6 text-gray-900">
                                     Telefone
                                 </label>
                                 <div className="mt-2">
                                     <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
                                         <input
                                             type="number"
-                                            name="username"
-                                            id="telefone"
-                                            autoComplete="username"
+                                            name="telefone"
+                                            value={formData.telefone}
+                                            onChange={handleInputChange}
                                             className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                             placeholder="Telefone"
                                         />
@@ -70,19 +124,18 @@ export default function OSForm() {
                                 </div>
                             </div>
 
-
                             {/* Endereço */}
                             <div className="col-span-full">
-                                <label htmlFor="username" className="block text-sm font-medium leading-6 text-gray-900">
+                                <label className="block text-sm font-medium leading-6 text-gray-900">
                                     Endereço
                                 </label>
                                 <div className="mt-2">
                                     <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
                                         <input
                                             type="text"
-                                            name="username"
-                                            id="endereco"
-                                            autoComplete="username"
+                                            name="endereco"
+                                            value={formData.endereco}
+                                            onChange={handleInputChange}
                                             className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                             placeholder="Endereço"
                                         />
@@ -96,7 +149,7 @@ export default function OSForm() {
 
                             {/* Equipamento */}
                             <div className="sm:col-span-3">
-                                <label htmlFor="username" className="block text-sm font-medium leading-6 text-gray-900">
+                                <label className="block text-sm font-medium leading-6 text-gray-900">
                                     Equipamento
                                 </label>
                                 <div className="mt-2">
@@ -104,8 +157,8 @@ export default function OSForm() {
                                         <input
                                             type="text"
                                             name="equipamento"
-                                            id="equipamento"
-                                            autoComplete="username"
+                                            value={formData.equipamento}
+                                            onChange={handleInputChange}
                                             className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                             placeholder="Equipamento"
                                         />
@@ -117,7 +170,7 @@ export default function OSForm() {
 
                             {/* Serial */}
                             <div className="sm:col-span-3">
-                                <label htmlFor="username" className="block text-sm font-medium leading-6 text-gray-900">
+                                <label className="block text-sm font-medium leading-6 text-gray-900">
                                     Número de série
                                 </label>
                                 <div className="mt-2">
@@ -125,8 +178,8 @@ export default function OSForm() {
                                         <input
                                             type="text"
                                             name="serial"
-                                            id="numeroSerie"
-                                            autoComplete="username"
+                                            value={formData.numeroSerie}
+                                            onChange={handleInputChange}
                                             className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                             placeholder="Número de série"
                                         />
@@ -140,7 +193,7 @@ export default function OSForm() {
 
                             {/* Serviço */}
                             <div className="sm:col-span-3">
-                                <label htmlFor="username" className="block text-sm font-medium leading-6 text-gray-900">
+                                <label className="block text-sm font-medium leading-6 text-gray-900">
                                     Serviço
                                 </label>
                                 <div className="mt-2">
@@ -148,8 +201,8 @@ export default function OSForm() {
                                         <input
                                             type="text"
                                             name="servico"
-                                            id="servico"
-                                            autoComplete="username"
+                                            value={formData.servico}
+                                            onChange={handleInputChange}
                                             className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                             placeholder="Serviço"
                                         />
@@ -161,7 +214,7 @@ export default function OSForm() {
 
                             {/* Data de saída */}
                             <div className="sm:col-span-3">
-                                <label htmlFor="username" className="block text-sm font-medium leading-6 text-gray-900">
+                                <label className="block text-sm font-medium leading-6 text-gray-900">
                                     Data prevista
                                 </label>
                                 <div className="mt-2">
@@ -169,8 +222,8 @@ export default function OSForm() {
                                         <input
                                             type="date"
                                             name="dataSaida"
-                                            id="dataSaida"
-                                            autoComplete="username"
+                                            value={formData.dataSaida.toISOString().split('T')[0]}
+                                            onChange={handleInputChange}
                                             className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                         />
                                     </div>
@@ -186,14 +239,21 @@ export default function OSForm() {
                                 </label>
                                 <div className="mt-2">
                                     <select
-                                        id="country"
-                                        name="country"
-                                        autoComplete="country-name"
+                                        id="funcionario"
+                                        name="funcionario"
+                                        value={formData.funcionarioId}
+                                        onChange={handleInputChange}
                                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                                     >
-                                        <option>United States</option>
-                                        <option>Canada</option>
-                                        <option>Mexico</option>
+                                        {
+                                            data.map((funcionario) => {
+
+                                                return (
+                                                    <option key={funcionario.id} value={funcionario.id}>{funcionario.nome}</option>
+                                                )
+
+                                            })
+                                        }
                                     </select>
                                 </div>
                             </div>
@@ -207,9 +267,10 @@ export default function OSForm() {
                                     <textarea
                                         id="observacao"
                                         name="observacao"
+                                        value={formData.observacao}
+                                        onChange={handleInputChange}
                                         rows={3}
                                         className="p-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                        defaultValue={''}
                                     />
                                 </div>
                             </div>
@@ -241,7 +302,7 @@ export default function OSForm() {
 
 
             </form>
-        
+
         </>
     )
 }

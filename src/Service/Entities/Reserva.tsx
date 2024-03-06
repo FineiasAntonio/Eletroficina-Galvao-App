@@ -1,9 +1,9 @@
 import { NovoProduto } from "./Produto"
 
 export interface Reserva{
-    produtosReservados: produtosReservados[]
-    novoProdutoReservado: NovoProduto[]
-    maoDeObra: number
+    produtosExistentes?: produtosReservados[]
+    produtosNovos?: NovoProduto[]
+    maoDeObra?: number
 }
 
 export interface produtosReservados{

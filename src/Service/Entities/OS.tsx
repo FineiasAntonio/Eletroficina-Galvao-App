@@ -1,4 +1,5 @@
 import { Funcionario } from "./Funcionario";
+import { Reserva } from "./Reserva";
 
 export interface OrdemServico {
     id: number;
@@ -64,4 +65,19 @@ interface produtoReservado {
     quantidade: number;
     precoUnitario: number;
     quantidadeNecessaria: number;
+}
+
+export interface OSCreateRequest {
+    nome: string;
+    telefone: string;
+    endereco: string;
+    cpf: string;
+    equipamento: string;
+    numeroSerie: string;
+    servico: string;
+    dataSaida: Date;
+    funcionarioId: number;
+    observacao: string;
+    comentarios: string;
+    reserva: Reserva
 }
