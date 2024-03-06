@@ -2,7 +2,8 @@ import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import Table from './Table';
-import Form from './Form';
+import Form from './Form/Form';
+import OrcamentoForm from './Form/OrcamentoForm';
 
 interface User {
   name: string;
@@ -154,18 +155,9 @@ export default function Example() {
           )}
         </Disclosure>
 
-        <header className="bg-white shadow">
-          <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 flex justify-between">
-            <h1 className="text-3xl font-bold tracking-tight text-gray-900">Ordens de serviço</h1>
-            <div className='text-right'>
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
-              Nova ordem de serviço
-            </button>
-            </div>
-          </div>
-        </header>
+        
         <main>
-          <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+          <div>
             <Form />
           </div>
         </main>
