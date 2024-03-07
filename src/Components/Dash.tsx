@@ -158,7 +158,7 @@ export default function Example() {
         
         <main>
           <div>
-            <Form />
+            <Table />
           </div>
         </main>
       </div>

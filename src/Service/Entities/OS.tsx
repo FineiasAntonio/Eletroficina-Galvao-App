@@ -17,7 +17,7 @@ export interface OrdemServico {
     servico: string;
     situacao: situacao;
     subSituacao?: subSituacao;
-    imagemEntrada?: string;
+    imagemEntrada?: string[];
     imagemSaida?: string;
     video?: string;
     funcionario: Funcionario;
