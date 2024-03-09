@@ -3,6 +3,7 @@ import { FiTrash2 } from "react-icons/fi";
 import { NovoProduto, Produto } from "../../../Service/Entities/Produto";
 import { produtosReservados } from "../../../Service/Entities/Reserva";
 import { getAllProduto } from "../../../Service/api/ProdutoApi";
+import { reserva } from "../../../Service/Entities/OS";
 
 interface FormProps {
     setarReserva: (
@@ -10,9 +11,10 @@ interface FormProps {
         produtosNovosInput: NovoProduto[],
         maoDeObraInput: number
     ) => void;
+    reserva?: reserva;
 }
 
-export default function OrcamentoForm({ setarReserva }: FormProps) {
+export default function UpdateOrcamentoForm({ setarReserva, reserva }: FormProps) {
 
     const [data, setData] = useState<Produto[]>([]);
     const [produtoSelecionado, setProdutoSelecionado] = useState<Produto>();
@@ -124,9 +126,22 @@ export default function OrcamentoForm({ setarReserva }: FormProps) {
                 <h1>Folha de Orçamento</h1>
             </div>
 
+            <div >
+                {reserva?.produtos_reservados?.map((produto) => (
+                    <div key={produto.id} className="flex justify-between">
+                        <p>{produto.produto}</p>
+                        <p>{produto.quantidade}/{produto.quantidadeNescessaria}</p>
+                        <p>{produto.precoUnitario}</p>
+                        <p>{produto.referencia}</p>
+                    </div>
+                ))}
+            </div>
+
             <label htmlFor="country" className="block text-sm font-medium leading-6 text-gray-900">
                 Produto
             </label>
+
+            
 
             <div className="sm:col-span-3 flex justify-between items-center">
 

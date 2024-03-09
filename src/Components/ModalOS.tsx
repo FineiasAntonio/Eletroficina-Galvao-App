@@ -16,10 +16,6 @@ const ModalOS: React.FC<ModalOSProps> = ({ OS, isOpen, onClose }) => {
 
     const navigate = useNavigate();
 
-    const editar = () => {
-        navigate("./Form/UpdateOSForm/UpdateForm", { state: { OS } });
-      };
-
     return (
         <ReactModal
             isOpen={isOpen}
@@ -34,7 +30,7 @@ const ModalOS: React.FC<ModalOSProps> = ({ OS, isOpen, onClose }) => {
                     </div>
                     <div className="flex h-1/2 mt-2">
                         <button
-                            onClick={() => editar}
+                            onClick={() => navigate(`/update/${OS?.id}`)}
                             className="mr-3 flex rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                         ><FaPencil className="mr-2"/> Editar</button>
                         <button

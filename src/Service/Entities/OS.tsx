@@ -7,7 +7,7 @@ export interface OrdemServico {
     telefone: string;
     endereco: string;
     cpf: string;
-    dataEntrada: Date;
+    dataEntrada?: Date;
     dataSaida: Date;
     dataConclusao?: Date;
     dataEntrega?: Date;
@@ -16,7 +16,7 @@ export interface OrdemServico {
     observacao: string;
     servico: string;
     situacao: situacao;
-    subSituacao?: number;
+    subSituacao?: subSituacao;
     imagemEntrada?: string[];
     imagemSaida?: string;
     video?: string;
@@ -50,16 +50,16 @@ export interface UpdateOrdemServicoDTO {
     comentarios?: string;
     servico: string;
     concluido: boolean;
-    subSituacao?: number;
+    subSituacao?: subSituacao;
 }
 
-enum situacao {
+export enum situacao {
     EM_ANDAMENTO = "EM_ANDAMENTO",
     CONCLUIDO = "CONCLUIDO",
     AGUARDANDO_PECA = "AGUARDANDO_PECA"
 }
 
-enum subSituacao {
+export enum subSituacao {
     APROVADO = "APROVADO",
     MONTADO = "MONTADO",
     TESTADO = "TESTADO",
@@ -67,10 +67,10 @@ enum subSituacao {
     ENTREGUE = "ENTREGUE"
 }
 
-interface reserva {
+export interface reserva {
     id: string;
     idOS: number;
-    produtosReservados: produtoReservado[];
+    produtos_reservados: produtoReservado[];
     ativo: boolean;
 }
 
@@ -80,7 +80,7 @@ interface produtoReservado {
     referencia: string;
     quantidade: number;
     precoUnitario: number;
-    quantidadeNecessaria: number;
+    quantidadeNescessaria: number;
 }
 
 export interface OSCreateRequest {
