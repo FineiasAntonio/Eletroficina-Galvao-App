@@ -1,7 +1,10 @@
 import { PaperClipIcon } from "@heroicons/react/24/outline";
 import { OrdemServico } from "../Service/Entities/OS";
 import ReactModal from 'react-modal';
-
+import { FaTrash } from "react-icons/fa";
+import { FaPencil } from "react-icons/fa6";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface ModalOSProps {
     OS?: OrdemServico;
@@ -10,6 +13,13 @@ interface ModalOSProps {
 }
 
 const ModalOS: React.FC<ModalOSProps> = ({ OS, isOpen, onClose }) => {
+
+    const navigate = useNavigate();
+
+    const editar = () => {
+        navigate("./Form/UpdateOSForm/UpdateForm", { state: { OS } });
+      };
+
     return (
         <ReactModal
             isOpen={isOpen}
@@ -17,9 +27,20 @@ const ModalOS: React.FC<ModalOSProps> = ({ OS, isOpen, onClose }) => {
             contentLabel="Detalhes da Ordem de Serviço"
         >
             <div>
-                <div className="px-4 sm:px-0">
+                <div className="px-4 sm:px-0 flex justify-between">
+                    <div>
                     <h1 className="text-base font-semibold leading-7 text-gray-900">Ordem de Serviço {OS?.id}</h1>
                     <h3>{OS?.situacao} {OS?.subSituacao ? (<>({OS?.subSituacao})</>) : (<></>)}</h3>
+                    </div>
+                    <div className="flex h-1/2 mt-2">
+                        <button
+                            onClick={() => editar}
+                            className="mr-3 flex rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                        ><FaPencil className="mr-2"/> Editar</button>
+                        <button
+                            className="flex rounded-md bg-red-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                        ><FaTrash className="mr-2"/> Excluir</button>
+                    </div>
                 </div>
                 <div className="mt-6 border-t border-gray-100">
                     <dl className="divide-y divide-gray-100">
@@ -79,20 +100,6 @@ const ModalOS: React.FC<ModalOSProps> = ({ OS, isOpen, onClose }) => {
                                             {OS?.imagemEntrada?.map(e => (
                                                 <img src={e}></img>
                                             ))}
-                                        </div>
-                                        <div className="ml-4 flex-shrink-0">
-                                            <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
-                                                Download
-                                            </a>
-                                        </div>
-                                    </li>
-                                    <li className="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
-                                        <div className="flex w-0 flex-1 items-center">
-                                            <PaperClipIcon className="h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
-                                            <div className="ml-4 flex min-w-0 flex-1 gap-2">
-                                                <span className="truncate font-medium">coverletter_back_end_developer.pdf</span>
-                                                <span className="flex-shrink-0 text-gray-400">4.5mb</span>
-                                            </div>
                                         </div>
                                         <div className="ml-4 flex-shrink-0">
                                             <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">

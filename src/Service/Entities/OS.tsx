@@ -16,12 +16,12 @@ export interface OrdemServico {
     observacao: string;
     servico: string;
     situacao: situacao;
-    subSituacao?: subSituacao;
+    subSituacao?: number;
     imagemEntrada?: string[];
     imagemSaida?: string;
     video?: string;
     funcionario: Funcionario;
-    comentarios?: string;
+    comentarios: string;
     reserva?: reserva;
     valorTotal: number;
 }
@@ -37,6 +37,22 @@ export interface CreateOrdemServicoDTO {
     servico: string;
 }
 
+export interface UpdateOrdemServicoDTO {
+    nome: string;
+    cpf: string;
+    telefone: string;
+    endereco: string;
+    dataSaida: Date;
+    equipamento: string;
+    numeroSerie: string;
+    funcionarioId: number;
+    observacao: string;
+    comentarios?: string;
+    servico: string;
+    concluido: boolean;
+    subSituacao?: number;
+}
+
 enum situacao {
     EM_ANDAMENTO = "EM_ANDAMENTO",
     CONCLUIDO = "CONCLUIDO",
@@ -44,7 +60,7 @@ enum situacao {
 }
 
 enum subSituacao {
-    APROVADO = "AGUARDANDO_PAGAMENTO",
+    APROVADO = "APROVADO",
     MONTADO = "MONTADO",
     TESTADO = "TESTADO",
     AGUARDANDO_RETIRADA = "AGUARDANDO_RETIRADA",

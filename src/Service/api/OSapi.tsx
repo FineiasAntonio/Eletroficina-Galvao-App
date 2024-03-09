@@ -14,7 +14,7 @@ export async function getAllOS(): Promise<OrdemServico[]> {
     return response.data as OrdemServico[]
 }
 
-export async function getOSById(id: number) {
+export async function getOSById(id?: string) {
     const response = await API.get(`/ordensdeservicos/${id}`)
 
     if (response.status !== 200) {
