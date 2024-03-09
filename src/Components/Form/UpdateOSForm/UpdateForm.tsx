@@ -49,7 +49,8 @@ export default function UpdateForm() {
         comentarios: "",
         servico: "",
         concluido: false,
-        subSituacao: undefined
+        subSituacao: undefined,
+        reserva: {}
     });
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -83,7 +84,10 @@ export default function UpdateForm() {
                 comentarios: osData.comentarios,
                 servico: osData.servico,
                 concluido: osData.situacao === situacao.CONCLUIDO,
-                subSituacao: osData.subSituacao
+                subSituacao: osData.subSituacao,
+                reserva: {
+
+                }
             };
 
             setUpdateRequest(updateRequestData);
@@ -132,7 +136,8 @@ export default function UpdateForm() {
             funcionarioId: updateRequest.funcionarioId,
             comentarios: updateRequest.comentarios,
             concluido: updateRequest.concluido,
-            subSituacao: updateRequest.subSituacao
+            subSituacao: updateRequest.subSituacao,
+            reserva: reserva
         }
 
         console.log(osAtualizada)

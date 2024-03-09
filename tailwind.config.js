@@ -9,6 +9,9 @@ export default {
       spacing: {
         "tela": "445px"
       },
+      colors: {
+        "wheat": "#F8F8FF"
+      },
     },
   },
   plugins: [],

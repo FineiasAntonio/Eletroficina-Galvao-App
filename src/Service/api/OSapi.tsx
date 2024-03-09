@@ -1,5 +1,6 @@
 import { API } from "./api";
 import { OrdemServico } from "../Entities/OS";
+import { NotificationBody } from "../Entities/Notification";
 
 export async function getAllOS(): Promise<OrdemServico[]> {
     const response = await API.get("/ordensdeservicos")
@@ -41,4 +42,18 @@ export async function deleteOS(id: number) {
             errordata: response.data
         }
     }
+}
+
+
+export async function getNotifications(): Promise<NotificationBody[]> {
+    const response = await API.get("/notifications")
+
+    if (response.status !== 200) {
+        throw {
+            status: response.status,
+            errorData: response.data
+        };
+    }
+
+    return response.data as NotificationBody[]
 }

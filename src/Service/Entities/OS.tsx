@@ -51,6 +51,7 @@ export interface UpdateOrdemServicoDTO {
     servico: string;
     concluido: boolean;
     subSituacao?: subSituacao;
+    reserva?: Reserva;
 }
 
 export enum situacao {
