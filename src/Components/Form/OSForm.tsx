@@ -1,8 +1,8 @@
-import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
+import { PhotoIcon } from '@heroicons/react/24/solid'
 import { Funcionario } from '../../Service/Entities/Funcionario';
 import { useEffect, useState } from 'react';
 import { getAllFuncionario } from '../../Service/api/FuncionarioApi';
-import { OSCreateRequest, OrdemServico } from '../../Service/Entities/OS';
+import { OSCreateRequest } from '../../Service/Entities/OS';
 
 interface FormProps {
     setarOS: (
@@ -17,7 +17,7 @@ export default function OSForm({ setarOS, adicionarImagens }: FormProps) {
 
     const [data, setData] = useState<Funcionario[]>([]);
 
-    const [imagens, setImagens] = useState<Blob[]>([]);
+    //const [imagens, setImagens] = useState<Blob[]>([]);
     const [formData, setFormData] = useState<OSCreateRequest>({
         nome: '',
         cpf: '',

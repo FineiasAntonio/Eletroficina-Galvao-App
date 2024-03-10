@@ -1,5 +1,4 @@
 import { Funcionario } from "../Entities/Funcionario";
-import { Produto } from "../Entities/Produto";
 import { API } from "./api";
 
 export async function getAllFuncionario(): Promise<Funcionario[]> {

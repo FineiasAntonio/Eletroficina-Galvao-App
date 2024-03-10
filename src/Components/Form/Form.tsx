@@ -4,7 +4,7 @@ import OrcamentoForm from "./OrcamentoForm";
 import { Reserva, produtosReservados } from "../../Service/Entities/Reserva";
 import { NovoProduto } from "../../Service/Entities/Produto";
 import { OSCreateRequest } from "../../Service/Entities/OS";
-import { createOS, uploadImages } from "../../Service/api/OSapi";
+import { createOS } from "../../Service/api/OSapi";
 import { useNavigate } from "react-router-dom";
 
 export default function Form() {
@@ -14,6 +14,8 @@ export default function Form() {
   const [reserva, setReserva] = useState<Reserva>();
   const [osRequest, setOsRequest] = useState<OSCreateRequest>();
   const [imagens, setImagens] = useState<Blob[]>([]);
+
+  console.log(imagens)
 
   const setarReserva = (produtosExistentesInput: produtosReservados[], produtosNovosInput: NovoProduto[], maoDeObraInput: number) => {
     const Reserva = {
@@ -48,7 +50,7 @@ export default function Form() {
       reserva: reserva
     }
 
-    const response = await createOS(request);
+    createOS(request);
     navigate("/")
     /* if (response.id) {
       uploadImages(response.id, imagens, 1);

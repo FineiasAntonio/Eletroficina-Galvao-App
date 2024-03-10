@@ -1,5 +1,5 @@
 import { API } from "./api";
-import { OSCreateRequest, OrdemServico, UpdateOrdemServicoDTO } from "../Entities/OS";
+import { OrdemServico, UpdateOrdemServicoDTO } from "../Entities/OS";
 import { NotificationBody } from "../Entities/Notification";
 
 export async function getAllOS(): Promise<OrdemServico[]> {

@@ -1,9 +1,7 @@
-import { PaperClipIcon } from "@heroicons/react/24/outline";
 import { OrdemServico } from "../Service/Entities/OS";
 import ReactModal from 'react-modal';
 import { FaTrash } from "react-icons/fa";
 import { FaPencil } from "react-icons/fa6";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { deleteOS } from "../Service/api/OSapi";
 

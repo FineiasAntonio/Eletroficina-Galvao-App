@@ -1,5 +1,5 @@
 import { Disclosure } from "@headlessui/react";
-import { BellIcon, XMarkIcon, Bars3Icon } from "@heroicons/react/24/outline";
+import { BellIcon } from "@heroicons/react/24/outline";
 import {useEffect, useState} from "react";
 import NotificationWindow from "./NotificationWindow"
 import { NotificationBody } from "../Service/Entities/Notification";
@@ -22,12 +22,6 @@ export default function NavBar() {
 
         fetchData();
     },[]);
-
-    interface NavigationItem {
-        name: string;
-        href: string;
-        current: boolean;
-    }
 
     function classNames(...classes: string[]) {
         return classes.filter(Boolean).join(' ');
