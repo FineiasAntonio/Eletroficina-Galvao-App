@@ -3,7 +3,7 @@ import { NovoProduto, Produto } from "../../Service/Entities/Produto";
 import { produtosReservados } from "../../Service/Entities/Reserva";
 import { FiTrash2 } from "react-icons/fi";
 import { getAllProduto } from "../../Service/api/ProdutoApi";
-
+import "./inputs.css"
 
 interface FormProps {
     setarReserva: (

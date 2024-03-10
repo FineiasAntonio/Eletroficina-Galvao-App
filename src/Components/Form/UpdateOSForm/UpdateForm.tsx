@@ -1,17 +1,18 @@
 import { useEffect, useState } from "react";
-import OrcamentoForm from "../OrcamentoForm";
 import { Reserva, produtosReservados } from "../../../Service/Entities/Reserva";
 import { NovoProduto } from "../../../Service/Entities/Produto";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { OrdemServico, UpdateOrdemServicoDTO, situacao, subSituacao } from "../../../Service/Entities/OS";
-import { getOSById } from "../../../Service/api/OSapi";
+import { getOSById, updateOS } from "../../../Service/api/OSapi";
 import { Funcionario } from "../../../Service/Entities/Funcionario";
 import { PhotoIcon } from "@heroicons/react/24/outline";
 import { getAllFuncionario } from "../../../Service/api/FuncionarioApi";
 import UpdateOrcamentoForm from "./UpdateOrcamentoForm";
+import IMask from "imask";
 
 export default function UpdateForm() {
 
+    const navigate = useNavigate();
     let { id } = useParams();
 
     const [funcionarios, setFuncionarios] = useState<Funcionario[]>();
@@ -54,10 +55,20 @@ export default function UpdateForm() {
     });
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+        if (e.target.name == "telefone") {
+            e.target.value = formatTelefone(e.target.value);
+        }
+        if (e.target.name == "cpf") {
+            e.target.value = formatCPF(e.target.value);
+        }
+
         const { name, value, type, checked } = e.target;
 
+        let inputValue: string | boolean
+
         // Se for um campo de checkbox, use 'checked' em vez de 'value'
-        const inputValue = type === "checkbox" ? checked : value;
+        inputValue = type === "checkbox" ? checked : value;
 
         setUpdateRequest((prevData) => ({
             ...prevData,
@@ -69,28 +80,29 @@ export default function UpdateForm() {
         const fetchData = async () => {
             try {
                 const osData = await getOSById(id);
-            setOS(osData);
+                osData.dataSaida = new Date(osData.dataSaida);
+                setOS(osData);
 
-            const updateRequestData: UpdateOrdemServicoDTO = {
-                nome: osData?.nome || "",
-                cpf: osData?.cpf || "",
-                endereco: osData?.endereco || "",
-                telefone: osData?.telefone || "",
-                dataSaida: osData.dataSaida,
-                equipamento: osData.equipamento,
-                numeroSerie: osData.numeroSerie,
-                funcionarioId: osData.funcionario.id,
-                observacao: osData.observacao,
-                comentarios: osData.comentarios,
-                servico: osData.servico,
-                concluido: osData.situacao === situacao.CONCLUIDO,
-                subSituacao: osData.subSituacao,
-                reserva: {
+                const updateRequestData: UpdateOrdemServicoDTO = {
+                    nome: osData?.nome || "",
+                    cpf: osData?.cpf || "",
+                    endereco: osData?.endereco || "",
+                    telefone: osData?.telefone || "",
+                    dataSaida: osData.dataSaida,
+                    equipamento: osData.equipamento,
+                    numeroSerie: osData.numeroSerie,
+                    funcionarioId: osData.funcionario.id,
+                    observacao: osData.observacao,
+                    comentarios: osData.comentarios,
+                    servico: osData.servico,
+                    concluido: osData.situacao === situacao.CONCLUIDO,
+                    subSituacao: osData.subSituacao,
+                    reserva: {
 
-                }
-            };
+                    }
+                };
 
-            setUpdateRequest(updateRequestData);
+                setUpdateRequest(updateRequestData);
             } catch (error) {
                 console.error(error);
             }
@@ -122,7 +134,8 @@ export default function UpdateForm() {
         setReserva(Reserva);
     }
 
-    const envia = () => {
+    const envia = async () => {
+
         let osAtualizada: UpdateOrdemServicoDTO = {
             nome: updateRequest.nome,
             cpf: updateRequest.cpf,
@@ -140,8 +153,12 @@ export default function UpdateForm() {
             reserva: reserva
         }
 
-        console.log(osAtualizada)
+        const response = await updateOS(OS.id, osAtualizada);
+        if (response === 201) {
+            navigate("/");
+        }
     }
+
 
     return (
         <div className="w-screen-md mx-auto">
@@ -184,11 +201,11 @@ export default function UpdateForm() {
                                                 <input
                                                     type="text"
                                                     name="cpf"
+                                                    id="cpf"
                                                     defaultValue={OS?.cpf}
                                                     onChange={handleInputChange}
                                                     className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                                                    placeholder="CPF/CNPJ"
-                                                />
+                                                    placeholder="CPF/CNPJ" />
                                             </div>
 
                                         </div>
@@ -202,8 +219,9 @@ export default function UpdateForm() {
                                         <div className="mt-2">
                                             <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
                                                 <input
-                                                    type="number"
+                                                    type="text"
                                                     name="telefone"
+                                                    id="telefone"
                                                     defaultValue={OS?.telefone}
                                                     onChange={handleInputChange}
                                                     className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
@@ -312,7 +330,7 @@ export default function UpdateForm() {
                                                 <input
                                                     type="date"
                                                     name="dataSaida"
-                                                    value={OS?.dataSaida ? new Date(OS?.dataSaida).toISOString().split('T')[0] : ''}
+                                                    value={new Date(OS?.dataSaida).toISOString().split('T')[0]}
                                                     onChange={handleInputChange}
                                                     className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                                 />
@@ -475,7 +493,7 @@ export default function UpdateForm() {
             </div>
             <hr />
             <div className=" flex items-center justify-end gap-x-6 p-8 bg-gray-100">
-                <button type="button" className="text-sm font-semibold leading-6 text-gray-900">
+                <button type="button" className="text-sm font-semibold leading-6 text-gray-900" onClick={() => { navigate("/") }}>
                     Cancelar
                 </button>
                 <button
@@ -489,3 +507,20 @@ export default function UpdateForm() {
         </div>
     )
 }
+
+const formatCPF = (inputCPF: string): string => {
+    const cpf = inputCPF.replace(/\D/g, ''); // Remove caracteres não numéricos
+    if (cpf.length === 11) {
+        return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+    } else if (cpf.length === 14) {
+        return cpf.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');
+    } else {
+        return cpf;
+    }
+};
+
+const formatTelefone = (inputTelefone: string): string => {
+    const telefone = inputTelefone.replace(/\D/g, ''); // Remove caracteres não numéricos
+    const formattedTelefone = telefone.replace(/(\d{2})(\d{4,5})(\d{4})/, '($1) $2-$3');
+    return formattedTelefone;
+};

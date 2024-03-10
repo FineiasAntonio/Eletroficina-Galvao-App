@@ -4,6 +4,7 @@ import { NovoProduto, Produto } from "../../../Service/Entities/Produto";
 import { produtosReservados } from "../../../Service/Entities/Reserva";
 import { getAllProduto } from "../../../Service/api/ProdutoApi";
 import { reserva } from "../../../Service/Entities/OS";
+import "../inputs.css"
 
 interface FormProps {
     setarReserva: (
@@ -216,7 +217,7 @@ export default function UpdateOrcamentoForm({ setarReserva, reserva }: FormProps
 
             <div className="h-32 mt-3 items-center flex">
                 <label>Mão de obra</label>
-                <input type="number" className="ml-5" onChange={handleMaoDeObra} />
+                <input type="number" defaultValue={reserva?.maoDeObra} className="ml-5" onChange={handleMaoDeObra} />
             </div>
         </div>
     )

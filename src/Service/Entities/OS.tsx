@@ -73,6 +73,7 @@ export interface reserva {
     idOS: number;
     produtos_reservados: produtoReservado[];
     ativo: boolean;
+    maoDeObra: number
 }
 
 interface produtoReservado {

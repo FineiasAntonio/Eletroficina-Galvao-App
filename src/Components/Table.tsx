@@ -4,8 +4,11 @@ import { getAllOS } from "../Service/api/OSapi";
 import { format } from "date-fns"
 import { FaRegEye } from "react-icons/fa";
 import ModalOS from "./ModalOS";
+import { useNavigate } from "react-router-dom";
 
 export default function Table() {
+
+  const navigate = useNavigate();
 
   const [ordemSelecionada, setOrdemSelecionada] = useState<OrdemServico>();
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
@@ -27,12 +30,14 @@ export default function Table() {
   const selecionarOS = (id: number) => {
     setOrdemSelecionada(data.find(e => e.id == id));
     setModalOpen(true);
-    console.log(data.find(e => e.id == id)?.funcionario.nome)
   }
 
   const fecharModal = () => {
     setModalOpen(false);
+   
   }
+
+
 
   return (
     <>
@@ -41,7 +46,9 @@ export default function Table() {
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 flex justify-between">
             <h1 className="text-3xl font-bold tracking-tight text-gray-900">Ordens de serviço</h1>
             <div className='text-right'>
-              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+              <button 
+              onClick={() => navigate(`/create`)}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
                 Nova ordem de serviço
               </button>
             </div>

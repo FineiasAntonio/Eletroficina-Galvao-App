@@ -5,6 +5,7 @@ import { FaTrash } from "react-icons/fa";
 import { FaPencil } from "react-icons/fa6";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { deleteOS } from "../Service/api/OSapi";
 
 interface ModalOSProps {
     OS?: OrdemServico;
@@ -35,6 +36,10 @@ const ModalOS: React.FC<ModalOSProps> = ({ OS, isOpen, onClose }) => {
                         ><FaPencil className="mr-2"/> Editar</button>
                         <button
                             className="flex rounded-md bg-red-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                            onClick={() => {
+                                deleteOS(OS?.id)
+                                window.location.reload()
+                            }}
                         ><FaTrash className="mr-2"/> Excluir</button>
                     </div>
                 </div>

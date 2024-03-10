@@ -1,5 +1,5 @@
 import { API } from "./api";
-import { OrdemServico } from "../Entities/OS";
+import { OSCreateRequest, OrdemServico, UpdateOrdemServicoDTO } from "../Entities/OS";
 import { NotificationBody } from "../Entities/Notification";
 
 export async function getAllOS(): Promise<OrdemServico[]> {
@@ -28,15 +28,28 @@ export async function getOSById(id?: string) {
     return response.data as OrdemServico
 }
 
-export async function createOS() {
-    throw new Error("Not yet implemented")
+export async function createOS(OS: any): Promise<OrdemServico> {
+    const response = await API.post("/ordensdeservicos", OS, {
+        timeout: 60000,
+    });
+
+    if (response.status !== 201) {
+        throw {
+            status: response.status,
+            errorData: response.data,
+        };
+    }
+
+    return response.data as OrdemServico;
 }
 
-export async function deleteOS(id: number) {
+export async function deleteOS(id?: number) {
+    if(id === undefined){
+        throw new Error("Id undefined");
+    }
     const response = await API.delete(`/ordensdeservicos/${id}`)
 
-    // FIXME: The correct status code for delete is 203, but the API doesn't return it yet.
-    if (response.status !== 200) {
+    if (response.status !== 204) {
         throw {
             status: response.status,
             errordata: response.data
@@ -44,6 +57,17 @@ export async function deleteOS(id: number) {
     }
 }
 
+export async function updateOS(id: number, os: UpdateOrdemServicoDTO): Promise<number> {
+
+    console.log(os);
+    const response = await API.put(`/ordensdeservicos/${id}`, os);
+
+    if (response.status === 201){
+        console.log('atualizado')
+    }
+    
+    return response.status;
+}
 
 export async function getNotifications(): Promise<NotificationBody[]> {
     const response = await API.get("/notifications")
@@ -56,4 +80,35 @@ export async function getNotifications(): Promise<NotificationBody[]> {
     }
 
     return response.data as NotificationBody[]
+}
+
+//FIX
+export async function uploadImages(id: number, images: Blob[], method: number) {
+    const formData = new FormData();
+
+    images.forEach((image) => {
+        formData.append("imagens", image);
+    });
+
+    console.log(images)
+
+    try {
+        const response = await API.post(`/ordensdeservicos/image/${id}?method=${method}`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+            timeout: 60000, // Define o timeout para 60 segundos (ou ajuste conforme necessário)
+        });
+
+        if (response.status !== 200) {
+            throw {
+                status: response.status,
+                errorData: response.data
+            };
+        }
+    } catch (error) {
+        // Trate o erro, como rethrow ou log
+        console.error('Erro na requisição:', error);
+        throw error;
+    }
 }

@@ -23,44 +23,20 @@ export default function NavBar() {
         fetchData();
     },[]);
 
-    interface User {
-        name: string;
-        email: string;
-        imageUrl: string;
-    }
-
     interface NavigationItem {
         name: string;
         href: string;
         current: boolean;
     }
 
-    interface UserNavigationItem {
-        name: string;
-        href: string;
-    }
-
-    interface ExampleProps {
-        user: User;
-        navigation: NavigationItem[];
-        userNavigation: UserNavigationItem[];
-    }
-
     function classNames(...classes: string[]) {
         return classes.filter(Boolean).join(' ');
     }
 
-
-    const user = {
-        name: 'Tom Cook',
-        email: 'tom@example.com',
-        imageUrl:
-            'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    }
     const navigation = [
-        { name: 'Ordens de serviço', href: '#', current: true },
-        { name: 'Estoque', href: '#', current: false },
-        { name: 'Controle', href: '#', current: false },
+        { name: 'Ordens de serviço', href: '/', current: true },
+        { name: 'Estoque', href: '/estoque', current: false },
+        { name: 'Controle', href: '/controle', current: false },
     ]
 
     const abrirNotificacao = () => {
@@ -69,7 +45,6 @@ export default function NavBar() {
 
     return (
         <Disclosure as="nav" className="bg-gray-800">
-            {({ open }) => (
                 <>
                     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                         <div className="flex h-20 items-center justify-between">
@@ -78,7 +53,7 @@ export default function NavBar() {
                                     <img
                                         className="h-20 w-20"
                                         src="src/Assets/loja_logo.png"
-                                        alt="Your Company"
+                                        alt="Eletroficina Galvão Logo"
                                     />
                                 </div>
 
@@ -102,9 +77,8 @@ export default function NavBar() {
                                     </div>
                                 </div>
                             </div>
+
                             <div className="hidden md:block">
-
-
                                 <div className="flex items-center">
 
                                     <button
@@ -128,7 +102,6 @@ export default function NavBar() {
                         )}
             
                 </>
-            )}
         </Disclosure>
 
     )
