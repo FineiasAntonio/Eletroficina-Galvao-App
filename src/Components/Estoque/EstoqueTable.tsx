@@ -3,10 +3,14 @@ import { useState, useEffect } from "react";
 import { FaRegEye } from "react-icons/fa";
 import { Produto } from "../../Service/Entities/Produto";
 import { getAllProduto } from "../../Service/api/ProdutoApi";
+import { TrashIcon } from "@heroicons/react/24/outline";
+import { BsTrash } from "react-icons/bs";
+import ModalProduto from "./ModalProduto";
 
 export default function EstoqueTable() {
 
   const [data, setData] = useState<Produto[]>([]);
+  const [modalAberto, setModalAberto] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,8 +25,31 @@ export default function EstoqueTable() {
     fetchData();
   }, []);
 
+  const abrirModal = () => {
+    setModalAberto(true);
+  };
+
+  const fecharModal = () => {
+    setModalAberto(false);
+  };
 
   return (
+    <>
+    <div className="min-h-full">
+        <header className="bg-white shadow">
+          <div className="mx-auto max-w-7xl px-4 py-3 sm:px-6 lg:px-8 flex justify-between">
+            <h1 className="text-3xl font-bold tracking-tight text-gray-900">Estoque</h1>
+            <div className='text-right'>
+              <button 
+              onClick={() => abrirModal()}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+                Cadstrar novo produto
+              </button>
+            </div>
+          </div>
+        </header>
+      </div>
+
     <div className="flex max-h-tela">
       <div className="w-1/2 text-center">
         <h1 className="text-2xl mb-neg mt-2">Estoque</h1>
@@ -43,6 +70,8 @@ export default function EstoqueTable() {
                   <th scope="col" className="px-6 py-3">
                     Quantidade
                   </th>
+                  <th scope="col" className="px-6 py-3">
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -60,7 +89,7 @@ export default function EstoqueTable() {
                       <td className="px-6 py-4 text-center">{produto.precoUnitario}</td>
                       <td className="px-6 py-4 text-center">{produto.quantidade}</td>
                       <td className="px-6 py-4 text-right">
-                        <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline" ><FaRegEye /></a>
+                        <a href="#" className="text-medium text-blue-600 dark:text-blue-500 hover:underline" ><BsTrash /></a>
                       </td>
                     </tr>
                   ))
@@ -145,9 +174,6 @@ export default function EstoqueTable() {
                       <td className="px-6 py-4 text-center">{produto.referencia}</td>
                       <td className="px-6 py-4 text-center">{produto.precoUnitario}</td>
                       <td className="px-6 py-4 text-center">{produto.quantidade}</td>
-                      <td className="px-6 py-4 text-right">
-                        <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline" ><FaRegEye /></a>
-                      </td>
                     </tr>
                   ))
                 )}
@@ -159,7 +185,12 @@ export default function EstoqueTable() {
         </div>
         </div>
       </div>
-    </div>
 
+
+    </div>
+ 
+    <ModalProduto isOpen={modalAberto} onClose={fecharModal} />
+
+    </>
   )
 }

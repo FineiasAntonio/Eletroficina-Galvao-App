@@ -1,6 +1,6 @@
 import { NotificationBody } from "../Service/Entities/Notification"
 import { produtosReservados } from "../Service/Entities/Reserva";
-import { reservarProduto } from "../Service/api/Reserva";
+import { reservarProduto } from "../Service/api/ReservaApi";
 
 interface NotificationProps {
     notifications: NotificationBody[];
