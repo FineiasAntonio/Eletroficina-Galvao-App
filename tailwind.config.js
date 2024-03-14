@@ -8,6 +8,7 @@ export default {
     extend: {
       spacing: {
         "tela": "445px",
+        "tela_estoque": "490px"
       },
       margin: {
         "neg": "-8px",

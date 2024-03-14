@@ -1,6 +1,8 @@
 import { ReactElement, useState } from "react";
 import ReactModal from "react-modal";
 import { NovoProduto, Produto } from "../../Service/Entities/Produto";
+import { createProduto } from "../../Service/api/ProdutoApi";
+import { useNavigate } from "react-router-dom";
 
 interface ModalProps {
     isOpen: boolean;
@@ -9,6 +11,8 @@ interface ModalProps {
 
 
 export default function ModalProduto({ isOpen, onClose }: ModalProps) {
+
+    const navigate = useNavigate();
 
     const [produto, setProduto] = useState("");
     const [referencia, setReferencia] = useState("");
@@ -31,12 +35,18 @@ export default function ModalProduto({ isOpen, onClose }: ModalProps) {
         setQuantidade(e.target.value);
       };
 
-      const enviarProduto = () => {
+      const enviarProduto = async () => {
         const produtoInput: NovoProduto = {
             produto: produto,
             referencia: referencia,
             precoUnitario: parseInt(precoUnitario),
             quantidade: parseInt(quantidade)
+        }
+
+        const status = createProduto(produtoInput)
+
+        if (await status == 201){
+            window.location.reload()
         }
       }
 
@@ -90,7 +100,7 @@ export default function ModalProduto({ isOpen, onClose }: ModalProps) {
                             Cancelar
                         </button>
                         <button
-
+                            onClick={enviarProduto}
                             type="submit"
                             className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                         >

@@ -4,13 +4,18 @@ import { reservarProduto } from "../Service/api/ReservaApi";
 
 interface NotificationProps {
     notifications: NotificationBody[];
+    setNotificacoes: (notificacoes: NotificationBody[]) => void;
 }
 
-const reservarProdutoNotification = (id: number, produto: produtosReservados) => {
-    reservarProduto(id, produto)
-}
 
-function NotificationWindow({ notifications }: NotificationProps) {
+
+function NotificationWindow({ notifications, setNotificacoes }: NotificationProps) {
+
+    const reservarProdutoNotification = (id: number, produto: produtosReservados) => {
+        reservarProduto(id, produto)
+        setNotificacoes(notifications.filter(e => (e.orderID !== id) && e.uuid !== produto.uuidProduto))
+    }
+
     return (
         <div className="fixed w-96 pr-10 pl-10 pb-10 pt-2 mt-20 inset-0 z-50 flex justify-self-end justify-center">
             <div className="bg-wheat p-4 w-full rounded-md shadow-2xl">
