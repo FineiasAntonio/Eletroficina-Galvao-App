@@ -23,9 +23,6 @@ export default function NavBar() {
         fetchData();
     },[]);
 
-    function classNames(...classes: string[]) {
-        return classes.filter(Boolean).join(' ');
-    }
 
     const navigation = [
         { name: 'Ordens de serviço', href: '/', current: true },
@@ -87,7 +84,7 @@ export default function NavBar() {
 
                     
                         {notificacaoWindow && (
-                            <NotificationWindow notifications={notificacoes}/>
+                            <NotificationWindow notifications={notificacoes} setNotificacoes={setNotificacoes}/>
                         )}
             
                 </>

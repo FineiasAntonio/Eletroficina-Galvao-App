@@ -7,7 +7,6 @@ import Form from './Components/Form/Form'
 import EstoqueTable from './Components/Estoque/EstoqueTable'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
-import Doc from './Print/doc'
 
 function App() {
 

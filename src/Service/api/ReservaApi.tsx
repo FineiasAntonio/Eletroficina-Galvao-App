@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 import { reserva } from "../Entities/OS";
-import { Reserva, produtosReservados } from "../Entities/Reserva";
+import { produtosReservados } from "../Entities/Reserva";
 import { API } from "./api";
 
 export async function getAllReserva(): Promise<reserva[]> {

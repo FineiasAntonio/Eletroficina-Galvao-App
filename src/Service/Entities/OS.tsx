@@ -7,7 +7,7 @@ export interface OrdemServico {
     telefone: string;
     endereco: string;
     cpf: string;
-    dataEntrada: Date;
+    dataEntrada?: Date;
     dataSaida: Date;
     dataConclusao?: Date;
     dataEntrega?: Date;

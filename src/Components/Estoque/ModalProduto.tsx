@@ -1,8 +1,7 @@
-import { ReactElement, useState } from "react";
+import { useState } from "react";
 import ReactModal from "react-modal";
-import { NovoProduto, Produto } from "../../Service/Entities/Produto";
+import { NovoProduto } from "../../Service/Entities/Produto";
 import { createProduto } from "../../Service/api/ProdutoApi";
-import { useNavigate } from "react-router-dom";
 
 interface ModalProps {
     isOpen: boolean;
@@ -11,8 +10,6 @@ interface ModalProps {
 
 
 export default function ModalProduto({ isOpen, onClose }: ModalProps) {
-
-    const navigate = useNavigate();
 
     const [produto, setProduto] = useState("");
     const [referencia, setReferencia] = useState("");

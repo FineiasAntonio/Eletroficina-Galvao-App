@@ -5,6 +5,8 @@ import { FaPencil } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import { deleteOS } from "../Service/api/OSapi";
 import { format } from "date-fns/format";
+import { toast } from "react-toastify";
+import { FiPrinter } from "react-icons/fi";
 
 interface ModalOSProps {
     OS?: OrdemServico;
@@ -15,6 +17,10 @@ interface ModalOSProps {
 const ModalOS: React.FC<ModalOSProps> = ({ OS, isOpen, onClose }) => {
 
     const navigate = useNavigate();
+
+    const imprimir = (id: number | undefined) => {
+        window.open(`http://localhost:8080/ordensdeservicos/print/${id}`)
+    }
 
     return (
         <ReactModal
@@ -30,6 +36,10 @@ const ModalOS: React.FC<ModalOSProps> = ({ OS, isOpen, onClose }) => {
                     </div>
                     <div className="flex h-1/2 mt-2">
                         <button
+                            onClick={() => {imprimir(OS?.id)}}
+                            className="mr-3 flex rounded-md bg-gray-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                        ><FiPrinter className="mr-2" /> Imprimir</button>
+                        <button
                             onClick={() => navigate(`/update/${OS?.id}`)}
                             className="mr-3 flex rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                         ><FaPencil className="mr-2" /> Editar</button>
@@ -38,6 +48,7 @@ const ModalOS: React.FC<ModalOSProps> = ({ OS, isOpen, onClose }) => {
                             onClick={() => {
                                 deleteOS(OS?.id)
                                 window.location.reload()
+                                toast.success("OS apagada com sucesso")
                             }}
                         ><FaTrash className="mr-2" /> Excluir</button>
                     </div>
