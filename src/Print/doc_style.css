@@ -4,11 +4,6 @@
     margin-top: 0;
     margin-bottom: 0;
 }
-@media print {
-    body * {
-      visibility: hidden;
-    }
-  }
 
 body{
     width: 210mm;
@@ -52,3 +47,35 @@ p{
     
     font-weight: bold;
 }
+
+#table_div{
+    display: flex;
+    justify-content: center;
+    font-size: large;
+    font-family: Arial, Helvetica, sans-serif;
+    
+}
+table {
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 10px;
+}
+th, td {
+    padding: 10px 20px;
+    text-align: center;
+    text-align: left;
+}
+th {
+    border-bottom: 2px solid #000;
+}
+tr:nth-child(odd) {
+    background-color: #f0f0f0;
+}
+th:nth-child(1){
+    width: 300px
+}
+td{
+    height: 25px;
+    border-bottom: 2px solid #000;
+}
+
